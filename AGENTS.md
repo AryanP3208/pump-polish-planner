@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Architecture Decisions
+
+- Keep station layout, pump selection, apply-mode, and summary rules in pure TypeScript under `src/station/` (no React/Three imports) with Vitest tests in `src/station/station.test.ts` so booking rules stay verifiable without a browser.
+- Keep Three.js / React Three Fiber rendering in `src/scene/` behind the `ssr: false` index route, using procedural canvas textures and local `<Environment>` `<Lightformer>` lighting so WebGL never stalls on external CDNs.
+- Expose `window.__station` from `StationCanvas` and mark `[data-scene-ready="true"]` after the first rendered frame to support automated browser verification.
